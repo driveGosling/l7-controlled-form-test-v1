@@ -1,13 +1,9 @@
 import axios from 'axios';
 import onChange from 'on-change';
 
-const isValidName = (name) => {
-  return /[\S]+/.test(name);
-};
+const isValidName = (name) => /[\S]+/.test(name);
 
-const isValidEmail = (email) => {
-  return /[\S]+@[\S]+/.test(email);
-};
+const isValidEmail = (email) => /[\S]+@[\S]+/.test(email);
 
 // MODEL START
 const formState = {
@@ -35,16 +31,14 @@ const toggleSwitch = () => {
   const switchBtn = document.querySelector('input[type="submit"]');
 
   if (formState.validationStates.inputName === 'valid' && formState.validationStates.inputEmail === 'valid') {
-    console.log('yes')
     switchBtn.disabled = false;
   } else {
-    console.log('no')
     switchBtn.disabled = true;
   }
 };
 
 const changeInputStyle = (inputId) => {
-  const validationState = formState[inputId].validationState;
+  const { validationState } = formState[inputId];
   const input = document.querySelector(`#${inputId}`);
 
   input.classList.remove('form-control'); // багулина в тестах паходу
@@ -65,19 +59,18 @@ const changeInputStyle = (inputId) => {
 // VIEW END
 
 const watchedValidation = onChange(formState.validationStates, (inputId, value) => {
-  formState[inputId].validationState = value; // строчка чтобы синхронизировать значения validationStates и [inputId].validationState
+  // строчка чтобы синхронизировать значения validationStates и [inputId].validationState
+  formState[inputId].validationState = value;
   changeInputStyle(inputId);
 });
 
 const validate = (inputId) => {
-  const value = formState[inputId].value;
-  const isValidInput = formState[inputId].isValidInput;
+  const { value } = formState[inputId];
+  const { isValidInput } = formState[inputId];
 
   if (isValidInput(value)) {
-    console.log('valid')
     watchedValidation[inputId] = 'valid';
   } else {
-    console.log('invalid')
     watchedValidation[inputId] = 'invalid';
   }
 };
@@ -114,8 +107,8 @@ const form = () => {
   });
 
   // Step 3
-  const form = document.querySelector('#registrationForm');
-  form.addEventListener('input', (e) => {
+  const formEl = document.querySelector('#registrationForm');
+  formEl.addEventListener('input', (e) => {
     const inputId = e.target.id;
     const inputValue = e.target.value;
 
