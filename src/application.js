@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const formHtml = `
 <form id="registrationForm">
@@ -26,7 +26,7 @@ const form = () => {
     axios.post('/users')
       .then((res) => {
         document.body.innerHTML = `<p>${res.data.message}</p>`;
-      })
+      });
   });
 };
 
